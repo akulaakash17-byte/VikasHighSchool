@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vikas High School — Siddipet, Telangana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #071628;
+  --navy-2: #0e2340;
+  --navy-3: #163356;
+  --gold: #C8903A;
+  --gold-2: #e0a84a;
+  --gold-3: #f0c878;
+  --cream: #F8F4EE;
+  --cream-2: #F0EBE1;
+  --white: #FFFFFF;
+  --text: #0e1c2e;
+  --text-2: #3d5166;
+  --text-3: #7a8fa3;
+  --border: rgba(200,144,58,0.18);
+  --ease: cubic-bezier(0.4,0,0.2,1);
+  --ease-spring: cubic-bezier(0.34,1.56,0.64,1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  padding: 0 3rem;
+  height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: all 0.4s var(--ease);
+}
+nav.scrolled {
+  background: rgba(7,22,40,0.97);
+  backdrop-filter: blur(20px);
+  height: 60px;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(200,144,58,0.15);
+}
+.nav-logo { display: flex; align-items: center; gap: 13px; text-decoration: none; }
+.nav-emblem {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700; font-size: 20px; color: var(--navy);
+  letter-spacing: -0.5px;
+  box-shadow: 0 4px 16px rgba(200,144,58,0.35);
+}
+.nav-school { display: flex; flex-direction: column; }
+.nav-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px; font-weight: 700; color: #fff;
+  line-height: 1.1; letter-spacing: 0.02em;
+}
+.nav-loc { font-size: 10px; color: var(--gold-3); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400; }
+.nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+.nav-links a {
+  color: rgba(255,255,255,0.7); text-decoration: none;
+  font-size: 13px; font-weight: 500; padding: 8px 15px;
+  border-radius: 8px; transition: all 0.25s var(--ease);
+  letter-spacing: 0.02em;
+}
+.nav-links a:hover { color: var(--gold-3); background: rgba(200,144,58,0.1); }
+.nav-apply {
+  background: var(--gold) !important;
+  color: var(--navy) !important;
+  font-weight: 700 !important;
+  padding: 9px 22px !important;
+  border-radius: 8px !important;
+  letter-spacing: 0.04em !important;
+  box-shadow: 0 4px 16px rgba(200,144,58,0.3) !important;
+  transition: all 0.25s var(--ease) !important;
+}
+.nav-apply:hover { background: var(--gold-2) !important; transform: translateY(-1px) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.hamburger span { width: 26px; height: 2px; background: white; border-radius: 2px; transition: all 0.3s; }
+
+/* ── MOBILE MENU ── */
+.mobile-nav {
+  display: none; position: fixed; inset: 0; z-index: 190;
+  background: var(--navy);
+  flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem; font-weight: 600; color: white;
+  text-decoration: none; transition: color 0.2s;
+}
+.mobile-nav a:hover { color: var(--gold-2); }
+.mobile-close {
+  position: absolute; top: 24px; right: 24px;
+  font-size: 2rem; color: white; cursor: pointer;
+  background: rgba(255,255,255,0.08); width: 44px; height: 44px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: var(--navy);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center;
+  padding-top: 72px;
+}
+.hero-noise {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.6; pointer-events: none;
+}
+.hero-glow {
+  position: absolute;
+  width: 900px; height: 900px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,144,58,0.07) 0%, transparent 70%);
+  top: -300px; right: -200px; pointer-events: none;
+}
+.hero-glow-2 {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(22,51,86,0.9) 0%, transparent 70%);
+  bottom: -100px; left: -100px; pointer-events: none;
+}
+.hero-grid-lines {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(200,144,58,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,144,58,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-inner {
+  position: relative; z-index: 5;
+  max-width: 1280px; margin: 0 auto; padding: 5rem 3rem;
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem; align-items: center;
+  width: 100%;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(200,144,58,0.1); border: 1px solid rgba(200,144,58,0.25);
+  color: var(--gold-3); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 7px 16px; border-radius: 24px; margin-bottom: 1.75rem;
+  opacity: 0; animation: riseUp 0.7s 0.1s var(--ease) forwards;
+}
+.hero-eyebrow .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); animation: blink 2s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.5)} }
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.2rem, 5.5vw, 5.2rem);
+  font-weight: 700; line-height: 1.05;
+  color: white; margin-bottom: 1.75rem;
+  opacity: 0; animation: riseUp 0.7s 0.2s var(--ease) forwards;
+}
+.hero-title .accent {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--gold), var(--gold-3));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-subtitle {
+  font-size: 16px; line-height: 1.8;
+  color: rgba(255,255,255,0.55); font-weight: 300;
+  max-width: 480px; margin-bottom: 2.5rem;
+  opacity: 0; animation: riseUp 0.7s 0.3s var(--ease) forwards;
+}
+.hero-btns {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  opacity: 0; animation: riseUp 0.7s 0.4s var(--ease) forwards;
+}
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  color: var(--navy); font-weight: 700; font-size: 14px;
+  padding: 14px 32px; border-radius: 10px;
+  text-decoration: none; border: none; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.3s var(--ease);
+  letter-spacing: 0.04em;
+  box-shadow: 0 8px 24px rgba(200,144,58,0.3);
+}
+.btn-gold:hover { transform: translateY(-3px); box-shadow: 0 14px 35px rgba(200,144,58,0.4); }
+.btn-ghost {
+  background: transparent; color: rgba(255,255,255,0.8);
+  border: 1.5px solid rgba(255,255,255,0.2); font-weight: 500; font-size: 14px;
+  padding: 14px 32px; border-radius: 10px;
+  text-decoration: none; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.3s var(--ease);
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold-3); background: rgba(200,144,58,0.06); }
+.hero-metrics {
+  display: flex; gap: 2.5rem; margin-top: 3.5rem;
+  padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.08);
+  opacity: 0; animation: riseUp 0.7s 0.5s var(--ease) forwards;
+}
+.metric { display: flex; flex-direction: column; }
+.metric-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem; font-weight: 700;
+  color: var(--gold); line-height: 1;
+}
+.metric-label { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 5px; letter-spacing: 0.05em; }
+
+/* Hero Visual Side */
+.hero-visual {
+  position: relative;
+  opacity: 0; animation: riseUp 0.8s 0.35s var(--ease) forwards;
+}
+.hero-img-wrap {
+  border-radius: 24px; overflow: hidden;
+  position: relative; z-index: 2;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  border: 1px solid rgba(200,144,58,0.2);
+}
+.hero-img-wrap::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 55%, rgba(7,22,40,0.8) 100%);
+}
+.hero-img-wrap img {
+  width: 100%; height: 440px; object-fit: cover; display: block;
+}
+.hero-corner-1 {
+  position: absolute; top: -20px; right: -20px; z-index: 1;
+  width: 130px; height: 130px;
+  border: 2px solid rgba(200,144,58,0.25); border-radius: 20px;
+}
+.hero-corner-2 {
+  position: absolute; bottom: -24px; left: -24px; z-index: 1;
+  width: 90px; height: 90px;
+  background: rgba(200,144,58,0.08); border-radius: 14px;
+}
+.hero-badge {
+  position: absolute; bottom: 28px; left: -36px; z-index: 10;
+  background: white; border-radius: 16px; padding: 16px 22px;
+  display: flex; align-items: center; gap: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  min-width: 200px;
+}
+.hero-badge-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.hero-badge-txt { font-size: 12px; color: var(--text-3); }
+.hero-badge-val { font-size: 15px; font-weight: 700; color: var(--text); margin-top: 2px; }
+
+@keyframes riseUp {
+  from { opacity:0; transform: translateY(28px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* ── TICKER ── */
+.ticker {
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  padding: 11px 0; overflow: hidden; position: relative;
+}
+.ticker-track {
+  display: flex; width: max-content;
+  animation: tickerMove 40s linear infinite;
+}
+.ticker-track:hover { animation-play-state: paused; }
+.ticker-label {
+  background: var(--navy); color: var(--gold);
+  font-size: 10px; font-weight: 700;
+  padding: 4px 18px; letter-spacing: 0.2em; text-transform: uppercase;
+  border-radius: 0 6px 6px 0; flex-shrink: 0;
+  display: flex; align-items: center; margin-right: 2.5rem;
+}
+.ticker-item {
+  font-size: 13px; font-weight: 600; color: var(--navy);
+  padding: 0 3rem; border-right: 1.5px solid rgba(7,22,40,0.18);
+  white-space: nowrap; display: flex; align-items: center; gap: 8px;
+}
+.ticker-item::before { content: '●'; font-size: 7px; opacity: 0.5; }
+@keyframes tickerMove {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ── SECTION BASE ── */
+section { padding: 7rem 3rem; }
+.container { max-width: 1280px; margin: 0 auto; }
+.sec-tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1rem;
+}
+.sec-tag::before { content:''; width: 24px; height: 2px; background: var(--gold); }
+.sec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 700; line-height: 1.15; color: var(--navy); margin-bottom: 1.25rem;
+}
+.sec-title .italic { font-style: italic; color: var(--gold); }
+.sec-title.light { color: white; }
+.sec-body { font-size: 16px; color: var(--text-2); line-height: 1.75; max-width: 560px; }
+.sec-body.light { color: rgba(255,255,255,0.6); }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.75s var(--ease), transform 0.75s var(--ease); }
+.reveal.in { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.1s; }
+.d2 { transition-delay: 0.2s; }
+.d3 { transition-delay: 0.3s; }
+.d4 { transition-delay: 0.4s; }
+
+/* ── ABOUT ── */
+.about { background: white; }
+.about-layout {
+  display: grid; grid-template-columns: 1fr 1.05fr;
+  gap: 6rem; align-items: center;
+}
+.about-img-stack { position: relative; }
+.about-img-main {
+  width: 100%; height: 520px; object-fit: cover;
+  border-radius: 24px; display: block;
+  box-shadow: 0 30px 70px rgba(7,22,40,0.15);
+}
+.about-badge {
+  position: absolute; bottom: 28px; right: -28px;
+  background: var(--navy); border-radius: 20px;
+  padding: 22px 28px; text-align: center;
+  box-shadow: 0 20px 50px rgba(7,22,40,0.3);
+}
+.about-badge-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem; font-weight: 700; color: var(--gold); display: block; line-height: 1;
+}
+.about-badge-txt { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 5px; letter-spacing: 0.06em; text-transform: uppercase; }
+.about-img-dot {
+  position: absolute; top: 28px; left: -16px;
+  width: 80px; height: 80px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  border-radius: 20px; opacity: 0.12;
+}
+.about-feats { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 2.5rem; }
+.about-feat {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 18px 20px; border-radius: 14px;
+  border: 1px solid rgba(200,144,58,0.12);
+  transition: all 0.3s var(--ease); cursor: default;
+}
+.about-feat:hover { border-color: rgba(200,144,58,0.5); background: rgba(200,144,58,0.03); transform: translateX(4px); }
+.feat-icon {
+  width: 46px; height: 46px; flex-shrink: 0; border-radius: 12px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.feat-title { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+.feat-desc { font-size: 13px; color: var(--text-3); line-height: 1.55; }
+
+/* ── FEATURES (dark) ── */
+.features-sec { background: var(--navy); }
+.feats-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1.5rem; margin-top: 4rem;
+}
+.feat-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(200,144,58,0.12);
+  border-radius: 20px; padding: 2.25rem;
+  transition: all 0.35s var(--ease); position: relative; overflow: hidden;
+}
+.feat-card::after {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.feat-card:hover { background: rgba(255,255,255,0.07); border-color: rgba(200,144,58,0.35); transform: translateY(-5px); }
+.feat-card:hover::after { opacity: 1; }
+.fc-icon {
+  width: 54px; height: 54px; border-radius: 15px; margin-bottom: 1.5rem;
+  background: rgba(200,144,58,0.1); border: 1px solid rgba(200,144,58,0.2);
+  display: flex; align-items: center; justify-content: center; font-size: 24px;
+}
+.fc-title { font-size: 17px; font-weight: 600; color: white; margin-bottom: 0.65rem; }
+.fc-text { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
+/* ── ACADEMICS ── */
+.academics-sec { background: var(--cream); }
+.acad-grid {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 1.25rem; margin-top: 4rem;
+}
+.acad-card {
+  background: white; border-radius: 20px; padding: 2.25rem 1.75rem;
+  text-align: center; border: 1px solid rgba(200,144,58,0.1);
+  transition: all 0.35s var(--ease-spring); cursor: default; position: relative; overflow: hidden;
+}
+.acad-card::before {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-2));
+  transform: scaleX(0); transition: transform 0.35s var(--ease);
+  transform-origin: left;
+}
+.acad-card:hover { transform: translateY(-8px); box-shadow: 0 24px 55px rgba(200,144,58,0.12); border-color: rgba(200,144,58,0.3); }
+.acad-card:hover::before { transform: scaleX(1); }
+.acad-emoji { font-size: 2.75rem; display: block; margin-bottom: 1.1rem; }
+.acad-name { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 0.6rem; font-family: 'Cormorant Garamond', serif; }
+.acad-desc { font-size: 13px; color: var(--text-3); line-height: 1.6; }
+
+/* ── TESTIMONIALS ── */
+.testimonials-sec { background: var(--navy-2); }
+.test-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1.5rem; margin-top: 4rem;
+}
+.test-card {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(200,144,58,0.1);
+  border-radius: 20px; padding: 2.25rem; position: relative; overflow: hidden;
+}
+.test-card::before {
+  content: '"';
+  position: absolute; top: -10px; right: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8rem; color: var(--gold); opacity: 0.08; line-height: 1;
+}
+.test-stars { color: var(--gold); font-size: 13px; letter-spacing: 2px; margin-bottom: 1rem; }
+.test-text { font-size: 14.5px; color: rgba(255,255,255,0.7); line-height: 1.8; font-style: italic; margin-bottom: 1.75rem; }
+.test-author { display: flex; align-items: center; gap: 12px; }
+.test-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 15px; color: var(--navy);
+}
+.test-name { font-size: 14px; font-weight: 600; color: white; }
+.test-role { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+/* ── CTA STRIP ── */
+.cta-strip {
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  padding: 5rem 3rem; text-align: center;
+  position: relative; overflow: hidden;
+}
+.cta-strip::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+.cta-strip h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem,4vw,3.2rem); font-weight: 700;
+  color: var(--navy); margin-bottom: 0.75rem; position: relative;
+}
+.cta-strip p { font-size: 16px; color: rgba(7,22,40,0.65); margin-bottom: 2.25rem; position: relative; }
+.btn-navy {
+  background: var(--navy); color: white;
+  font-weight: 700; font-size: 14px;
+  padding: 15px 40px; border-radius: 10px;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.3s var(--ease); letter-spacing: 0.04em; position: relative;
+  border: none; cursor: pointer;
+}
+.btn-navy:hover { background: var(--navy-2); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(7,22,40,0.3); }
+
+/* ── CONTACT ── */
+.contact-sec { background: white; }
+.contact-layout {
+  display: grid; grid-template-columns: 1fr 1.5fr;
+  gap: 5rem; align-items: start; margin-top: 4rem;
+}
+.contact-cards { display: flex; flex-direction: column; gap: 1.1rem; }
+.contact-card {
+  display: flex; align-items: center; gap: 18px;
+  padding: 20px 22px; border-radius: 16px;
+  border: 1px solid rgba(200,144,58,0.15);
+  background: var(--cream); transition: all 0.3s var(--ease);
+}
+.contact-card:hover { border-color: var(--gold); transform: translateX(4px); }
+.cc-icon {
+  width: 48px; height: 48px; border-radius: 13px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.cc-label { font-size: 11px; font-weight: 700; color: var(--text-3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+.cc-val { font-size: 14px; font-weight: 500; color: var(--navy); line-height: 1.4; }
+
+/* Contact Form */
+.contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.form-group { display: flex; flex-direction: column; gap: 7px; }
+.form-group label {
+  font-size: 11px; font-weight: 700; color: var(--text-2);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  border: 1.5px solid rgba(200,144,58,0.2);
+  border-radius: 12px; padding: 13px 18px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px; color: var(--text); background: var(--cream);
+  outline: none; transition: all 0.25s var(--ease);
+  appearance: none;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--gold); background: white;
+  box-shadow: 0 0 0 4px rgba(200,144,58,0.08);
+}
+.form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-3); }
+.form-group textarea { resize: vertical; min-height: 120px; }
+.form-status {
+  padding: 14px 18px; border-radius: 10px;
+  font-size: 14px; font-weight: 500; display: none;
+}
+.form-status.success { background: rgba(22,163,74,0.1); color: #166534; border: 1px solid rgba(22,163,74,0.2); display: block; }
+.form-status.error { background: rgba(220,38,38,0.08); color: #991b1b; border: 1px solid rgba(220,38,38,0.15); display: block; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--navy); color: rgba(255,255,255,0.6);
+  padding: 5rem 3rem 2.5rem;
+}
+.footer-top {
+  display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: 3rem; margin-bottom: 3.5rem;
+  max-width: 1280px; margin-left: auto; margin-right: auto;
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-about { }
+.footer-desc { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); margin-top: 1.25rem; }
+.footer-col-head {
+  font-size: 12px; font-weight: 700; color: white;
+  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1.25rem;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.footer-col a {
+  color: rgba(255,255,255,0.45); text-decoration: none;
+  font-size: 13.5px; transition: all 0.25s;
+}
+.footer-col a:hover { color: var(--gold-3); padding-left: 5px; }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 1280px; margin: 0 auto;
+  font-size: 12px; color: rgba(255,255,255,0.3);
+}
+.footer-links { display: flex; gap: 2rem; }
+.footer-links a { color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold-3); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1100px) {
+  .feats-grid { grid-template-columns: repeat(2,1fr); }
+  .acad-grid { grid-template-columns: repeat(2,1fr); }
+  .test-grid { grid-template-columns: 1fr 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .about-layout { grid-template-columns: 1fr; }
+  .about-badge { right: 16px; }
+  .contact-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  section { padding: 5rem 1.5rem; }
+  .hero-inner { padding: 3rem 1.5rem; }
+  .feats-grid { grid-template-columns: 1fr; }
+  .acad-grid { grid-template-columns: 1fr 1fr; }
+  .test-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; gap: 2.5rem; }
+  .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+  .hero-metrics { flex-wrap: wrap; gap: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <div class="nav-emblem">VHS</div>
+    <div class="nav-school">
+      <span class="nav-name">Vikas High School</span>
+      <span class="nav-loc">Siddipet · Telangana</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#features">Facilities</a></li>
+    <li><a href="#academics">Academics</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact" class="nav-apply">Apply Now →</a></li>
+  </ul>
+  <div class="hamburger" id="menuBtn">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-close" id="closeMenu">✕</div>
+  <a href="#home" class="mob-link">Home</a>
+  <a href="#about" class="mob-link">About</a>
+  <a href="#features" class="mob-link">Facilities</a>
+  <a href="#academics" class="mob-link">Academics</a>
+  <a href="#testimonials" class="mob-link">Reviews</a>
+  <a href="#contact" class="mob-link">Admissions</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-noise"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow"><span class="dot"></span> CBSE &amp; State Syllabus Affiliated</div>
+      <h1 class="hero-title">Where <span class="accent">Brilliant</span><br>Futures Begin</h1>
+      <p class="hero-subtitle">A co-educational institution committed to holistic development and academic excellence — nurturing the leaders of tomorrow from the heart of Siddipet, Telangana.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-gold">Apply for Admissions ↗</a>
+        <a href="#about" class="btn-ghost">Explore School →</a>
+      </div>
+      <div class="hero-metrics">
+        <div class="metric">
+          <span class="metric-num">30+</span>
+          <span class="metric-label">Years of Excellence</span>
+        </div>
+        <div class="metric">
+          <span class="metric-num">1,500+</span>
+          <span class="metric-label">Students Enrolled</span>
+        </div>
+        <div class="metric">
+          <span class="metric-num">95%</span>
+          <span class="metric-label">Board Pass Rate</span>
+        </div>
+        <div class="metric">
+          <span class="metric-num">A+</span>
+          <span class="metric-label">Academic Grade</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-corner-1"></div>
+      <div class="hero-img-wrap">
+        <img src="https://i0.wp.com/vikashighschool.in/wp-content/uploads/2023/06/VHS-building-scaled.jpg?fit=2560%2C1191&ssl=1"
+             alt="Vikas High School Campus"
+             onerror="this.src='https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80'">
+      </div>
+      <div class="hero-corner-2"></div>
+      <div class="hero-badge">
+        <div class="hero-badge-icon">🏆</div>
+        <div>
+          <div class="hero-badge-txt">Recognition</div>
+          <div class="hero-badge-val">State Award Winner</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANNOUNCEMENTS TICKER -->
+<div class="ticker">
+  <div class="ticker-track" id="tickerTrack">
+    <span class="ticker-label">📢 ANNOUNCEMENTS</span>
+    <span class="ticker-item">Loading announcements...</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-layout">
+      <div class="about-img-stack reveal">
+        <div class="about-img-dot"></div>
+        <img class="about-img-main"
+          src="https://i0.wp.com/vikashighschool.in/wp-content/uploads/2023/06/9X0A3190-scaled.jpg?fit=800%2C534&ssl=1"
+          alt="Students"
+          onerror="this.src='https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80'">
+        <div class="about-badge">
+          <span class="about-badge-num">A+</span>
+          <div class="about-badge-txt">Academic Grade</div>
+        </div>
+      </div>
+      <div class="reveal d1">
+        <div class="sec-tag">Our Story</div>
+        <h2 class="sec-title">Learning Meets <span class="italic">Excellence</span></h2>
+        <p class="sec-body">Vikas High School has been a cornerstone of quality education in Siddipet for over three decades. We believe in nurturing intellectual curiosity, personal growth, and character alongside academics.</p>
+        <div class="about-feats">
+          <div class="about-feat">
+            <div class="feat-icon">🏫</div>
+            <div>
+              <div class="feat-title">State-of-the-Art Campus</div>
+              <div class="feat-desc">Modern classrooms, science labs, computer center, and vast sports grounds with multiple courts.</div>
+            </div>
+          </div>
+          <div class="about-feat">
+            <div class="feat-icon">👨‍🏫</div>
+            <div>
+              <div class="feat-title">Experienced Faculty</div>
+              <div class="feat-desc">Qualified, dedicated teachers who champion child-centered learning over rote methods.</div>
+            </div>
+          </div>
+          <div class="about-feat">
+            <div class="feat-icon">⚽</div>
+            <div>
+              <div class="feat-title">Sports &amp; Co-curriculars</div>
+              <div class="feat-desc">Multiple PE teachers, dedicated sports courts, arts programs, and vibrant cultural events.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-sec" id="features">
+  <div class="container">
+    <div class="reveal" style="text-align:center; max-width:600px; margin:0 auto;">
+      <div class="sec-tag" style="justify-content:center; color:var(--gold-3);">Why Choose Us</div>
+      <h2 class="sec-title light" style="text-align:center;">Everything to Help Your Child <span style="color:var(--gold);font-style:italic;">Thrive</span></h2>
+    </div>
+    <div class="feats-grid">
+      <div class="feat-card reveal">
+        <div class="fc-icon">🔬</div>
+        <div class="fc-title">Science Laboratories</div>
+        <div class="fc-text">Physics, chemistry and biology labs fully equipped for hands-on experimentation and scientific thinking.</div>
+      </div>
+      <div class="feat-card reveal d1">
+        <div class="fc-icon">💻</div>
+        <div class="fc-title">Computer Education</div>
+        <div class="fc-text">Modern computer labs ensuring digital literacy with the latest software for future-ready students.</div>
+      </div>
+      <div class="feat-card reveal d2">
+        <div class="fc-icon">📚</div>
+        <div class="fc-title">Rich Library</div>
+        <div class="fc-text">Thousands of books, journals, and reference materials to spark curiosity and feed every young mind.</div>
+      </div>
+      <div class="feat-card reveal">
+        <div class="fc-icon">🏏</div>
+        <div class="fc-title">Sports Facilities</div>
+        <div class="fc-text">Vast playground with cricket ground, volleyball, basketball courts, and dedicated PE teachers.</div>
+      </div>
+      <div class="feat-card reveal d1">
+        <div class="fc-icon">🎨</div>
+        <div class="fc-title">Arts &amp; Culture</div>
+        <div class="fc-text">Painting, music, dance, and annual cultural events to discover and celebrate every student's talent.</div>
+      </div>
+      <div class="feat-card reveal d2">
+        <div class="fc-icon">🛡️</div>
+        <div class="fc-title">Safe Environment</div>
+        <div class="fc-text">CCTV-monitored, disciplined, and caring environment where every child feels safe and respected.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACADEMICS -->
+<section class="academics-sec" id="academics">
+  <div class="container">
+    <div class="reveal" style="text-align:center; max-width:600px; margin:0 auto 0;">
+      <div class="sec-tag" style="justify-content:center;">Curriculum</div>
+      <h2 class="sec-title" style="text-align:center;">Academic <span class="italic">Programs</span></h2>
+      <p class="sec-body" style="text-align:center; margin:0 auto;">Comprehensive curriculum under CBSE and State Syllabus from Nursery through Class X.</p>
+    </div>
+    <div class="acad-grid">
+      <div class="acad-card reveal">
+        <span class="acad-emoji">🌱</span>
+        <div class="acad-name">Pre-Primary</div>
+        <div class="acad-desc">Activity-based early learning for Nursery, LKG &amp; UKG that makes education joyful.</div>
+      </div>
+      <div class="acad-card reveal d1">
+        <span class="acad-emoji">📖</span>
+        <div class="acad-name">Primary (I–V)</div>
+        <div class="acad-desc">Strong foundational skills in languages, mathematics, EVS and more.</div>
+      </div>
+      <div class="acad-card reveal d2">
+        <span class="acad-emoji">🧪</span>
+        <div class="acad-name">Middle School (VI–VIII)</div>
+        <div class="acad-desc">Deeper exploration of Science, Social Studies, and languages.</div>
+      </div>
+      <div class="acad-card reveal d3">
+        <span class="acad-emoji">🎯</span>
+        <div class="acad-name">Secondary (IX–X)</div>
+        <div class="acad-desc">Rigorous board exam preparation under CBSE with expert faculty guidance.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-sec" id="testimonials">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <div class="sec-tag" style="justify-content:center; color:var(--gold-3);">Testimonials</div>
+      <h2 class="sec-title light" style="text-align:center;">What <span style="color:var(--gold);font-style:italic;">Parents</span> Say</h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card reveal">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-text">This is the only school with a vast playground with various courts. The management knows education should be child-centered, not teacher-centered. All students enjoy learning here.</p>
+        <div class="test-author">
+          <div class="test-avatar">PG</div>
+          <div>
+            <div class="test-name">Parshuram Goud</div>
+            <div class="test-role">Google Review</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card reveal d1">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-text">Excellent education and beautiful atmosphere. The school has more than three teachers for physical education — truly committed to the complete development of every student.</p>
+        <div class="test-author">
+          <div class="test-avatar">BK</div>
+          <div>
+            <div class="test-name">Bapu Reddy Katthula</div>
+            <div class="test-role">Google Review</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card reveal d2">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-text">My children have grown academically and as individuals. Teachers are dedicated and the environment is nurturing, disciplined, and genuinely caring about every child.</p>
+        <div class="test-author">
+          <div class="test-avatar">SR</div>
+          <div>
+            <div class="test-name">Suresh Reddy</div>
+            <div class="test-role">Parent</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-strip reveal">
+  <div class="container">
+    <h2>Admissions Open for 2025–26</h2>
+    <p>Secure your child's future at Vikas High School. Limited seats available.</p>
+    <a href="#contact" class="btn-navy">Register Your Interest →</a>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section class="contact-sec" id="contact">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-tag">Enquiries &amp; Admissions</div>
+      <h2 class="sec-title">Get In <span class="italic">Touch</span></h2>
+    </div>
+    <div class="contact-layout">
+      <div class="reveal">
+        <p class="sec-body" style="margin-bottom:2rem;">We'd love to hear from you. Reach out for admission enquiries, school visits, or any information you need.</p>
+        <div class="contact-cards">
+          <div class="contact-card">
+            <div class="cc-icon">📍</div>
+            <div>
+              <div class="cc-label">Address</div>
+              <div class="cc-val">Ponnal, Medak SH-1, Rajiv Rahadari Road,<br>Siddipet, Telangana 502277</div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="cc-icon">📞</div>
+            <div>
+              <div class="cc-label">Phone</div>
+              <div class="cc-val">+91 92469 74935 &nbsp;|&nbsp; +91 94415 08350</div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="cc-icon">✉️</div>
+            <div>
+              <div class="cc-label">Email</div>
+              <div class="cc-val">vikasschool737@gmail.com</div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="cc-icon">🕐</div>
+            <div>
+              <div class="cc-label">Office Hours</div>
+              <div class="cc-val">Monday – Saturday &nbsp;|&nbsp; 8:00 AM – 4:00 PM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal d1">
+        <div id="formStatus" class="form-status"></div>
+        <form class="contact-form" id="enquiryForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Parent Name *</label>
+              <input type="text" id="parentName" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label>Phone Number *</label>
+              <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Student Name *</label>
+              <input type="text" id="studentName" placeholder="Student's name" required>
+            </div>
+            <div class="form-group">
+              <label>Enquiry For Class</label>
+              <select id="classSelect">
+                <option value="">Select Class</option>
+                <option>Nursery / LKG / UKG</option>
+                <option>Class I – V</option>
+                <option>Class VI – VIII</option>
+                <option>Class IX – X</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea id="message" placeholder="Any specific questions or requirements..."></textarea>
+          </div>
+          <button type="submit" class="btn-gold" id="submitBtn" style="align-self:flex-start;">
+            Submit Enquiry →
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-about">
+      <div class="nav-logo" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
+        <div class="nav-emblem">VHS</div>
+        <div class="nav-school">
+          <span class="nav-name">Vikas High School</span>
+          <span class="nav-loc">Siddipet · Telangana</span>
+        </div>
+      </div>
+      <p class="footer-desc">A co-educational secondary school affiliated to CBSE and State Syllabus, committed to holistic development and academic excellence for over three decades.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-head">Quick Links</div>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#features">Facilities</a></li>
+        <li><a href="#academics">Academics</a></li>
+        <li><a href="#contact">Admissions</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-head">Programs</div>
+      <ul>
+        <li><a href="#academics">Pre-Primary</a></li>
+        <li><a href="#academics">Primary (I–V)</a></li>
+        <li><a href="#academics">Middle (VI–VIII)</a></li>
+        <li><a href="#academics">Secondary CBSE</a></li>
+        <li><a href="#academics">State Syllabus</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-head">Contact</div>
+      <ul>
+        <li><a href="tel:+919246974935">+91 92469 74935</a></li>
+        <li><a href="tel:+919441508350">+91 94415 08350</a></li>
+        <li><a href="mailto:vikasschool737@gmail.com">vikasschool737@gmail.com</a></li>
+        <li><a href="#contact">Siddipet, Telangana 502277</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Vikas High School, Siddipet. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Mandatory Disclosure</a>
+      <a href="#">Newsletter</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const API = "";  // same origin — server serves both
+
+// ── Nav scroll ──
+window.addEventListener("scroll", () => {
+  document.getElementById("nav").classList.toggle("scrolled", window.scrollY > 50);
+});
+
+// ── Hamburger ──
+document.getElementById("menuBtn").addEventListener("click", () => {
+  document.getElementById("mobileNav").classList.toggle("open");
+});
+document.getElementById("closeMenu").addEventListener("click", () => {
+  document.getElementById("mobileNav").classList.remove("open");
+});
+document.querySelectorAll(".mob-link").forEach(a => {
+  a.addEventListener("click", () => document.getElementById("mobileNav").classList.remove("open"));
+});
+
+// ── Scroll Reveal ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("in"); });
+}, { threshold: 0.1 });
+document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+// ── Announcements Ticker ──
+async function loadTicker() {
+  try {
+    const res = await fetch(`${API}/api/announcements`);
+    const data = await res.json();
+    if (!Array.isArray(data) || data.length === 0) return;
+
+    const items = data.map(d => `<span class="ticker-item">${d.text}</span>`).join("");
+    const track = document.getElementById("tickerTrack");
+    track.innerHTML = `<span class="ticker-label">📢 ANNOUNCEMENTS</span>${items}${items}`;
+  } catch (e) {
+    console.warn("Ticker load failed:", e);
+  }
+}
+loadTicker();
+
+// ── Enquiry Form ──
+document.getElementById("enquiryForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById("submitBtn");
+  const status = document.getElementById("formStatus");
+
+  btn.textContent = "Submitting...";
+  btn.disabled = true;
+  status.className = "form-status";
+
+  const payload = {
+    parent_name: document.getElementById("parentName").value,
+    phone: document.getElementById("phone").value,
+    student_name: document.getElementById("studentName").value,
+    class: document.getElementById("classSelect").value,
+    email: document.getElementById("email").value,
+    message: document.getElementById("message").value,
+  };
+
+  try {
+    const res = await fetch(`${API}/api/enquiries`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      status.textContent = "✅ Enquiry submitted! We will contact you shortly.";
+      status.className = "form-status success";
+      e.target.reset();
+    } else {
+      throw new Error(data.error || "Submission failed");
+    }
+  } catch (err) {
+    status.textContent = "❌ Error: " + err.message;
+    status.className = "form-status error";
+  } finally {
+    btn.textContent = "Submit Enquiry →";
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

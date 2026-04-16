@@ -1,109 +1,41 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { Pool } = require("pg");
+const path = require("path");
+
+const authRoutes = require("./routes/auth");
+const announcementsRoutes = require("./routes/announcements");
+const enquiriesRoutes = require("./routes/enquiries");
 
 const app = express();
+
+// ─── Middleware ───────────────────────────────────────────────────
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
-// DB connection (use .env in real projects)
-const pool = new Pool({
-    user: "postgres",
-    host: "localhost",
-    database: "postgres",
-    password: "Lucky_@#10",
-    port: 5432,
+// ─── API Routes ───────────────────────────────────────────────────
+app.use("/api/auth", authRoutes);
+app.use("/api/announcements", announcementsRoutes);
+app.use("/api/enquiries", enquiriesRoutes);
+
+// ─── Serve HTML pages ─────────────────────────────────────────────
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// =========================
-// 📢 ANNOUNCEMENTS
-// =========================
-
-// Add announcement
-app.post("/announcements", async (req, res) => {
-    try {
-        const { text } = req.body;
-
-        if (!text || text.trim() === "") {
-            return res.status(400).json({ error: "Text required" });
-        }
-
-        await pool.query(
-            "INSERT INTO announcements(text) VALUES($1)",
-            [text]
-        );
-
-        res.json({ success: true });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Server error" });
-    }
+app.get("/admin", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "admin", "index.html"));
 });
 
-// Get announcements
-app.get("/announcements", async (req, res) => {
-    try {
-        const result = await pool.query(
-            "SELECT * FROM announcements ORDER BY created_at DESC"
-        );
-        res.json(result.rows);
-    } catch (err) {
-        res.status(500).json({ error: "Server error" });
-    }
+// ─── 404 fallback ─────────────────────────────────────────────────
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
 });
 
-// Delete announcement
-app.delete("/announcements/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        await pool.query("DELETE FROM announcements WHERE id=$1", [id]);
-
-        res.json({ success: true });
-    } catch (err) {
-        res.status(500).json({ error: "Server error" });
-    }
-});
-
-// =========================
-// 📥 ENQUIRIES
-// =========================
-
-// Save enquiry
-app.post("/enquiries", async (req, res) => {
-    try {
-        const { parent_name, phone, student_name, class: cls, email, message } = req.body;
-
-        if (!parent_name || !phone || !student_name) {
-            return res.status(400).json({ error: "Missing fields" });
-        }
-
-        await pool.query(
-            "INSERT INTO enquiries(parent_name, phone, student_name, class, email, message) VALUES($1,$2,$3,$4,$5,$6)",
-            [parent_name, phone, student_name, cls, email, message]
-        );
-
-        res.json({ success: true });
-    } catch (err) {
-        res.status(500).json({ error: "Server error" });
-    }
-});
-
-// Get enquiries
-app.get("/enquiries", async (req, res) => {
-    try {
-        const result = await pool.query(
-            "SELECT * FROM enquiries ORDER BY created_at DESC"
-        );
-        res.json(result.rows);
-    } catch (err) {
-        res.status(500).json({ error: "Server error" });
-    }
-});
-
-// =========================
-// SERVER
-// =========================
-app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+// ─── Start Server ─────────────────────────────────────────────────
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Vikas High School server running on http://localhost:${PORT}`);
+  console.log(`📋 Admin panel: http://localhost:${PORT}/admin`);
 });
