@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Environment secrets — NEVER commit this
+.env
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
+npm-debug.log*
+
+# Setup script — delete after first run
+setup-admin.js

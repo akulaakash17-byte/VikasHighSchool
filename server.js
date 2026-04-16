@@ -24,13 +24,23 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// FIX: handle both /admin and /admin/ so the page always loads
 app.get("/admin", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "admin", "index.html"));
+});
+app.get("/admin/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "admin", "index.html"));
 });
 
 // ─── 404 fallback ─────────────────────────────────────────────────
 app.use((req, res) => {
   res.status(404).json({ error: "Route not found" });
+});
+
+// ─── Global error handler ─────────────────────────────────────────
+app.use((err, req, res, next) => {
+  console.error("Unhandled error:", err);
+  res.status(500).json({ error: "Internal server error" });
 });
 
 // ─── Start Server ─────────────────────────────────────────────────

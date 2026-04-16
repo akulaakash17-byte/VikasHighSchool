@@ -441,7 +441,7 @@ tbody tr:last-child td { border-bottom: none; }
           <div class="stat-box">
             <div class="stat-label">Today's Enquiries</div>
             <div class="stat-num" id="stat-today">—</div>
-            <div class="stat-sub">Last 24 hours</div>
+            <div class="stat-sub">Since midnight</div>
             <div class="stat-icon">📅</div>
           </div>
           <div class="stat-box">
@@ -501,7 +501,7 @@ tbody tr:last-child td { border-bottom: none; }
           </div>
           <div class="card-body">
             <div class="ann-list" id="annList">
-              <div class="empty-state"><div class="spinner"></div></div>
+              <div class="empty-state"><span class="spinner"></span></div>
             </div>
           </div>
         </div>
@@ -563,7 +563,8 @@ let adminUser = localStorage.getItem("vhs_admin") || "Admin";
 let enquiriesPage = 1;
 let enquiriesSearch = "";
 let searchTimer;
-let currentEnqId = null;
+// FIX: Store enquiry objects in a Map instead of inline JSON in onclick attrs
+const enquiryStore = new Map();
 
 // ── AUTH ──────────────────────────────────────────────────
 async function doLogin() {
@@ -655,36 +656,32 @@ async function loadAllData() {
 }
 
 // ── OVERVIEW ────────────────────────────────────────────
+// FIX: Use dedicated /stats endpoint for accurate counts instead of fetching all rows
 async function loadOverviewStats() {
   try {
-    const [enqRes, annRes] = await Promise.all([
-      authFetch(`${API}/api/enquiries?limit=200`),
-      authFetch(`${API}/api/announcements`),
+    const [statsRes, annRes, recentRes] = await Promise.all([
+      authFetch(`${API}/api/enquiries/stats`),
+      fetch(`${API}/api/announcements`),
+      authFetch(`${API}/api/enquiries?page=1&limit=8`),
     ]);
 
-    const enqData = await enqRes.json();
-    const annData = await annRes.json();
+    // Handle 401 on any protected route
+    if (statsRes.status === 401 || recentRes.status === 401) { doLogout(); return; }
 
-    const total = enqData.total || 0;
-    const allEnqs = enqData.enquiries || [];
+    const stats = await statsRes.json();
+    const annData = await annRes.json();
+    const recentData = await recentRes.json();
+
     const annCount = Array.isArray(annData) ? annData.length : 0;
 
-    const now = new Date();
-    const todayCount = allEnqs.filter(e => {
-      const d = new Date(e.created_at);
-      return d.toDateString() === now.toDateString();
-    }).length;
-    const weekAgo = new Date(now - 7 * 86400000);
-    const weekCount = allEnqs.filter(e => new Date(e.created_at) > weekAgo).length;
-
-    document.getElementById("stat-total").textContent = total;
-    document.getElementById("stat-today").textContent = todayCount;
+    document.getElementById("stat-total").textContent = stats.total ?? 0;
+    document.getElementById("stat-today").textContent = stats.today ?? 0;
     document.getElementById("stat-ann").textContent = annCount;
-    document.getElementById("stat-week").textContent = weekCount;
-    document.getElementById("sbBadge").textContent = total;
+    document.getElementById("stat-week").textContent = stats.week ?? 0;
+    document.getElementById("sbBadge").textContent = stats.total ?? 0;
 
     const tbody = document.getElementById("recentEnquiries");
-    const recent = allEnqs.slice(0, 8);
+    const recent = recentData.enquiries || [];
     if (recent.length === 0) {
       tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text-3)">No enquiries yet</td></tr>`;
       return;
@@ -700,7 +697,6 @@ async function loadOverviewStats() {
     `).join("");
   } catch (err) {
     console.error("Stats error:", err);
-    if (err.message === "401") doLogout();
   }
 }
 
@@ -792,6 +788,10 @@ async function loadEnquiries() {
       return;
     }
 
+    // FIX: Store enquiry objects by ID, use data-id in button instead of inline JSON
+    enquiryStore.clear();
+    enquiries.forEach(e => enquiryStore.set(e.id, e));
+
     tbody.innerHTML = enquiries.map((e, i) => `
       <tr>
         <td class="td-date">${(enquiriesPage - 1) * 15 + i + 1}</td>
@@ -800,7 +800,7 @@ async function loadEnquiries() {
         <td>${esc(e.student_name)}</td>
         <td>${e.class ? `<span class="td-class">${esc(e.class)}</span>` : '—'}</td>
         <td class="td-date">${fmtDate(e.created_at)}</td>
-        <td><button class="btn-view" onclick="openEnqModal(${JSON.stringify(e).replace(/"/g,'&quot;')})">View</button></td>
+        <td><button class="btn-view" data-id="${e.id}" onclick="openEnqModal(${e.id})">View</button></td>
       </tr>
     `).join("");
 
@@ -838,15 +838,18 @@ function debounceSearch() {
 }
 
 // ── MODAL ─────────────────────────────────────────────────
-function openEnqModal(e) {
-  currentEnqId = e.id;
+// FIX: Accept numeric ID, look up from enquiryStore — no unsafe inline JSON
+function openEnqModal(id) {
+  const e = enquiryStore.get(id);
+  if (!e) { showToast("Could not load enquiry details.", "error"); return; }
+
   document.getElementById("modalContent").innerHTML = `
     <div class="modal-row"><div class="modal-label">Parent Name</div><div class="modal-val">${esc(e.parent_name)}</div></div>
     <div class="modal-row"><div class="modal-label">Phone</div><div class="modal-val">${esc(e.phone)}</div></div>
     <div class="modal-row"><div class="modal-label">Student Name</div><div class="modal-val">${esc(e.student_name)}</div></div>
-    <div class="modal-row"><div class="modal-label">Class</div><div class="modal-val">${e.class || "Not specified"}</div></div>
-    <div class="modal-row"><div class="modal-label">Email</div><div class="modal-val">${e.email || "Not provided"}</div></div>
-    <div class="modal-row"><div class="modal-label">Message</div><div class="modal-val">${e.message || "No message"}</div></div>
+    <div class="modal-row"><div class="modal-label">Class</div><div class="modal-val">${esc(e.class) || "Not specified"}</div></div>
+    <div class="modal-row"><div class="modal-label">Email</div><div class="modal-val">${esc(e.email) || "Not provided"}</div></div>
+    <div class="modal-row"><div class="modal-label">Message</div><div class="modal-val">${esc(e.message) || "No message"}</div></div>
     <div class="modal-row"><div class="modal-label">Submitted</div><div class="modal-val">${fmtDate(e.created_at)}</div></div>
   `;
   document.getElementById("modalDelBtn").onclick = () => deleteEnq(e.id);
@@ -855,7 +858,6 @@ function openEnqModal(e) {
 
 function closeModal() {
   document.getElementById("enqModal").classList.remove("open");
-  currentEnqId = null;
 }
 document.getElementById("enqModal").addEventListener("click", e => {
   if (e.target === document.getElementById("enqModal")) closeModal();
@@ -884,9 +886,15 @@ function authFetch(url, opts = {}) {
   });
 }
 
+// FIX: More robust escape — handles null/undefined safely
 function esc(str) {
-  if (!str) return "";
-  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  if (str == null) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function fmtDate(d) {

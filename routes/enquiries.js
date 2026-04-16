@@ -26,11 +26,12 @@ router.post("/", async (req, res) => {
 });
 
 // GET /api/enquiries  — admin only, supports ?page=1&limit=20&search=
+// FIX: Added separate stats endpoint logic + proper total count always returned
 router.get("/", requireAuth, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 20;
-    const search = req.query.search || "";
+    const limit = Math.min(parseInt(req.query.limit) || 20, 200); // cap at 200
+    const search = req.query.search ? req.query.search.trim() : "";
     const offset = (page - 1) * limit;
 
     let query, countQuery, params, countParams;
@@ -61,6 +62,28 @@ router.get("/", requireAuth, async (req, res) => {
       page,
       limit,
       totalPages: Math.ceil(parseInt(count.rows[0].count) / limit),
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// GET /api/enquiries/stats — admin only, accurate counts for dashboard
+router.get("/stats", requireAuth, async (req, res) => {
+  try {
+    const total = await pool.query("SELECT COUNT(*) FROM enquiries");
+    const today = await pool.query(
+      "SELECT COUNT(*) FROM enquiries WHERE created_at >= CURRENT_DATE"
+    );
+    const week = await pool.query(
+      "SELECT COUNT(*) FROM enquiries WHERE created_at >= NOW() - INTERVAL '7 days'"
+    );
+
+    res.json({
+      total: parseInt(total.rows[0].count),
+      today: parseInt(today.rows[0].count),
+      week: parseInt(week.rows[0].count),
     });
   } catch (err) {
     console.error(err);
