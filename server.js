@@ -24,10 +24,10 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// FIX: handle both /admin and /admin/ so the page always loads
 app.get("/admin", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "admin", "index.html"));
 });
+
 app.get("/admin/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "admin", "index.html"));
 });
@@ -45,7 +45,7 @@ app.use((err, req, res, next) => {
 
 // ─── Start Server ─────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-  console.log(`🚀 Vikas High School server running on http://localhost:${PORT}`);
-  console.log(`📋 Admin panel: http://localhost:${PORT}/admin`);
-}); 
+  console.log(`🚀 Server running on port ${PORT}`);
+});
