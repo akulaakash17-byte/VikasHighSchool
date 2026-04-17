@@ -110,7 +110,7 @@ npm run dev
 | POST | `/api/announcements` | Add announcement |
 | DELETE | `/api/announcements/:id` | Delete announcement |
 | GET | `/api/enquiries` | Get all enquiries (paginated) |
-| DELETE | `/api/enquiries/:id` | Delete enquiry |
+| DELETE | `/api/enquiries/:id` | Delete enquiry  |
 
 ---
 
